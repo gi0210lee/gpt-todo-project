@@ -1,0 +1,1 @@
+java -jar D:\01_gy\Study\FullStackProjects\gpt-todo-project\backend\build\libs\todo-0.0.1-SNAPSHOT.jar

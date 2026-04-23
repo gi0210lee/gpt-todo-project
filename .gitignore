@@ -1,0 +1,31 @@
+# IDE
+.idea/
+.vscode/
+*.swp
+*.sublime-project
+*.sublime-workspace
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Backend (Gradle/Java)
+backend/build/
+backend/.gradle/
+backend/bin/
+backend/*.db
+
+# Frontend (Node/React)
+frontend/node_modules/
+frontend/dist/
+frontend/.eslintcache
+frontend/*.log
+
+# Environment
+.env
+.env.local
+
+# ETC
+김영환.md
+todo.zip
+GEMINI.md
