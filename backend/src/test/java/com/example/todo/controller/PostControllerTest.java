@@ -21,8 +21,8 @@ import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -72,12 +72,14 @@ public class PostControllerTest {
         PostResponse response = new PostResponse();
         response.setId(postId);
         response.setTitle("수정된 제목");
+        request.setContent("수정된 내용");
 
-        given(postService.updatePost(eq(postId), any(PostUpdateRequest.class), eq("testuser"))).willReturn(response);
+        given(postService.updatePost(any(Long.class), any(PostUpdateRequest.class), any(String.class))).willReturn(response);
 
         mockMvc.perform(put("/api/posts/" + postId)
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
                 .content(objectMapper.writeValueAsString(request)))
+                .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.data.title").value("수정된 제목"));
 
