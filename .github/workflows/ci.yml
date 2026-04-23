@@ -12,6 +12,21 @@ jobs:
     # 빌드하게 될 가상환경 OS
     runs-on: ubuntu-latest
 
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: password
+          POSTGRES_DB: tododb # application-local.properties 의 이름을 맞춰줌
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
     # 명령어가 실행될 기본 경로
     defaults:
       run:
@@ -36,6 +51,11 @@ jobs:
         # 빌드 및 테스트, 테스트 실패 시 빌드 중단
       - name: Build with Gradle
         run: ./gradlew build
+        env:
+          SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/tododb
+          SPRING_DATASOUECE_USERNAME: postgres
+          SPRING_DATASOURCE_PASSWORD: password
+          SPRING_BATCH_JDBC_INITIALIZE_SCHEMA: always # 테스트 시 배치 작업이 실행되지 않도록 설정
 
   # 프론트엔드 빌드
   frontend-build:
