@@ -74,7 +74,7 @@ public class PostControllerTest {
         response.setTitle("수정된 제목");
         request.setContent("수정된 내용");
 
-        given(postService.updatePost(any(Long.class), any(PostUpdateRequest.class), any(String.class))).willReturn(response);
+        given(postService.updatePost(eq(postId), any(PostUpdateRequest.class), any(String.class))).willReturn(response);
 
         mockMvc.perform(put("/api/posts/" + postId)
                 .contentType(String.valueOf(MediaType.APPLICATION_JSON))
